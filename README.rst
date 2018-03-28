@@ -1,14 +1,23 @@
 IDE
 ================================================================================
 
-Everything needed to setup a Linux OS using Docker for software development.
+Everything needed to setup a Linux OS via Docker for software development.
 
-Mostly it contains customized packages and setups for the author's software
+This contains customized packages and setups for the author's software
 development needs, such as using Vim to write Python programs, but sharing it
 so others may find it useful and it should be fairly easy to fork and customize
 to your own setup.
 
-Build the image::
+This reduces the effort required to setup a full development environment as it
+encapsulates all the software needed along with their configurations. Any
+persisted data (e.g. workspace) are mapped using host volumes, so the container
+can be rebuilt anytime to make changes. Due to the use of host volumes,
+there is a `performance penality when accesing those mapped files`__.
+For better performance, I will likely switch to a Docker volume soon.
+
+__ https://forums.docker.com/t/file-access-in-mounted-volumes-extremely-slow-cpu-bound/8076
+
+Build the image as specified by `Dockerfile <Dockerfile>`_::
 
     ./build.sh
 
