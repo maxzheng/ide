@@ -1,0 +1,10 @@
+#*.html
+#*.xml
+#*.js
+#*.js.map
+*.egg*
+*.pyc
+*.dat
+build
+_build
+.tox

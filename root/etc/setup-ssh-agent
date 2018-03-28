@@ -1,0 +1,3 @@
+ssh-agent > /etc/ssh/agents/`whoami`
+. /etc/ssh/agents/`whoami`
+ssh-add

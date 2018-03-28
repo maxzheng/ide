@@ -1,0 +1,3 @@
+defscrollback 10000
+hardstatus alwayslastline "%{= kK}%-w%50>%{+b}%n %t%{-}%+w%<"
+msgwait 1

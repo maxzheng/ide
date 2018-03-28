@@ -1,0 +1,12 @@
+[alias]
+    st = status
+    ci = commit -am
+    br = branch
+    co = checkout
+[core]
+	ignorecase = false
+	excludesfile = ~/.gitignore
+[push]
+	default = simple
+[credential]
+	helper = store
