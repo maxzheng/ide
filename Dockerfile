@@ -35,6 +35,10 @@ RUN apt-get update && \
         chmod 0777 /etc/ssh/agents && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
 
+# Staging area to avoid rebuild of everything. Merge above once awhile.
+RUN apt-get install -y \
+        librdkafka-dev
+
 ##############################################################################
 ###                         User Customization                             ###
 ##############################################################################
