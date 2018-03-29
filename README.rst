@@ -1,7 +1,9 @@
 IDE
 ================================================================================
 
-Everything needed to setup a Linux OS via Docker for software development.
+Everything needed to setup a Linux OS via Docker for software development. It is
+using `Docker Compose <https://docs.docker.com/compose/overview>`_ to help build
+the image and start the OS along with MySQL.
 
 This contains customized packages and setups for the author's software
 development needs, such as using Vim to write Python programs, but sharing it
@@ -17,13 +19,9 @@ For better performance, I will likely switch to a Docker volume soon.
 
 __ https://forums.docker.com/t/file-access-in-mounted-volumes-extremely-slow-cpu-bound/8076
 
-Build the image as specified by `Dockerfile <Dockerfile>`_::
+Build the image (`Dockerfile <Dockerfile>`_) and start the OS and MySQL containers per `docker-compose.yml <docker-compose.yml>`_::
 
-    ./build.sh
-
-Run the container in detached mode with volume mappings (and stops existing if any)::
-
-    ./run.sh
+    ./up.sh
 
 Start a shell via exec::
 

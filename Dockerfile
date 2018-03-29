@@ -37,7 +37,10 @@ RUN apt-get update && \
 
 # Staging area to avoid rebuild of everything. Merge above once awhile.
 RUN apt-get install -y \
-        librdkafka-dev
+        librdkafka-dev \
+        mysql-client \
+        iputils-ping \
+        curl
 
 ##############################################################################
 ###                         User Customization                             ###

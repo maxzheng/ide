@@ -1,0 +1,31 @@
+version: '3'
+services:
+  os:
+    container_name: ide
+    build: .
+    ports:
+    - "2222:22"
+    links:
+    - mysql
+    volumes:
+    - ~/notes:$H2/notes
+    - ~/.aws:$H2/.aws
+    - ~/.config:$H2/.config
+    - ~/.ccloud:$H2/.ccloud
+    - ~/.gnupg:$H2/.gnupg
+    - ~/.kioskconfig:$H2/.kioskconfig
+    - ~/.pip:$H2/.pip
+    - ~/.pypirc:$H2/.pypirc
+    - ~/.ssh:$H2/.ssh
+    - ~/.xonshrc:$H2/.xonshrc
+    - workspace:$H2/workspace
+  mysql:
+    container_name: mysql
+    image: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+    - database:/var/lib/mysql
+volumes:
+  workspace: {}
+  database: {}
