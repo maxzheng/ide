@@ -4,7 +4,8 @@ services:
     container_name: ide
     build: .
     ports:
-    - "2222:22"
+    - "2222:22"     # ssh
+    - "5000:5000"   # test app
     links:
     - mysql
     volumes:
