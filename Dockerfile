@@ -48,16 +48,16 @@ RUN apt-get install -y \
 USER $USER:$GROUP
 WORKDIR /home/$USER
 
-RUN mkdir venvs workspace && \
-    python3 -m venv venvs/tools && \
-        venvs/tools/bin/pip3 install -U pip && \
-        venvs/tools/bin/pip3 install xonsh workspace-tools twine
+RUN mkdir .virtualenvs workspace && \
+    python3 -m venv .virtualenvs/tools && \
+        .virtualenvs/tools/bin/pip3 install -U pip && \
+        .virtualenvs/tools/bin/pip3 install xonsh workspace-tools twine
 
 # chown doesn't support args yet: https://github.com/moby/moby/issues/35018
 COPY --chown=mzheng:root user /home/$USER
 
 RUN cd workspace && \
-    ../venvs/tools/bin/wst setup -a
+    ../.virtualenvs/tools/bin/wst setup -a
 
 # These "echo"s need to be run by themselves to work.
 RUN echo "\n\
@@ -65,7 +65,7 @@ RUN echo "\n\
 . /etc/ssh/agents/$USER &> /dev/null || . /etc/setup-ssh-agent\n\
 \n\
 # Make Python tools available
-export PATH=$PATH:/home/$USER/venvs/tools/bin\n\
+export PATH=$PATH:/home/$USER/.virtualenvs/tools/bin\n\
 " >> .bashrc && \
     echo "\n\
 [user]\n\
