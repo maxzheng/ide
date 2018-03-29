@@ -40,7 +40,9 @@ RUN apt-get install -y \
         librdkafka-dev \
         mysql-client \
         iputils-ping \
-        curl
+        curl && \
+    pip3 install neovim
+RUN apt-get install -y exuberant-ctags cron
 
 ##############################################################################
 ###                         User Customization                             ###
@@ -51,15 +53,15 @@ WORKDIR /home/$USER
 RUN mkdir .virtualenvs workspace && \
     python3 -m venv .virtualenvs/tools && \
         .virtualenvs/tools/bin/pip3 install -U pip && \
-        .virtualenvs/tools/bin/pip3 install xonsh workspace-tools twine
+        .virtualenvs/tools/bin/pip3 install xonsh workspace-tools twine flake8
 
 # chown doesn't support args yet: https://github.com/moby/moby/issues/35018
 COPY --chown=mzheng:root user /home/$USER
+# Everything after this need to run after COPY as they need/modify stuff from user templates.
 
-RUN cd workspace && \
-    ../.virtualenvs/tools/bin/wst setup -a
+# Changing directory, so let's run by itself
+RUN cd workspace && ../.virtualenvs/tools/bin/wst setup -a
 
-# These "echo"s need to be run by themselves to work.
 RUN echo "\n\
 # Setup ssh-agent on login\n\
 . /etc/ssh/agents/$USER &> /dev/null || . /etc/setup-ssh-agent\n\
@@ -73,6 +75,10 @@ export PATH=$PATH:/home/$USER/.virtualenvs/tools/bin\n\
 	email = $EMAIL\n\
 " >> .gitconfig
 
+# Run this by itself to avoid warning msgs about output is not a terminal / so the redirect works.
+RUN vim +PlugInstall +qall &> /dev/null
+
+# Do copy last so changes don't trigger rebuild
 COPY root /
 
 WORKDIR /home/$USER/workspace
