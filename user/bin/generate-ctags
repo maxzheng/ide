@@ -2,5 +2,5 @@
 
 # Install Exuberant ctags: brew install ctags or apt install exuberant-ctags
 
-ctags -R --python-kinds=-i  --exclude=*.js --exclude=.tox --exclude=*.egg --exclude=build --exclude=doc -f $HOME/workspace/.tags workspace
+ctags -R --python-kinds=-i  --exclude=*.js --exclude=.tox --exclude=*.egg --exclude=build --exclude=doc -f $HOME/workspace/.tags $HOME/workspace
 ls -l $HOME/workspace/.tags

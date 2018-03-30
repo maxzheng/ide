@@ -43,6 +43,10 @@ RUN apt-get install -y \
         curl && \
     pip3 install neovim
 RUN apt-get install -y exuberant-ctags cron
+RUN wget -nv https://s3-us-west-2.amazonaws.com/confluent.cloud/cli/ccloud-latest.tar.gz \
+    && tar xzf ccloud-latest.tar.gz \
+    && cp -r ccloud-*/* /usr/local \
+    && rm -rf ccloud-*
 
 ##############################################################################
 ###                         User Customization                             ###
