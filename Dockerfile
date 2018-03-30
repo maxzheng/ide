@@ -47,8 +47,7 @@ RUN wget -nv https://s3-us-west-2.amazonaws.com/confluent.cloud/cli/ccloud-lates
     && tar xzf ccloud-latest.tar.gz \
     && cp -r ccloud-*/* /usr/local \
     && rm -rf ccloud-*
-RUN apt-get install -y strace && \
-    sed -i 's|ptrace_scope = 1|ptrace_scope = 0|' /etc/sysctl.d/10-ptrace.conf
+RUN apt-get install -y strace cron
 
 ##############################################################################
 ###                         User Customization                             ###

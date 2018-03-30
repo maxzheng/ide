@@ -6,6 +6,7 @@ services:
     ports:
     - "2222:22"     # ssh
     - "5000:5000"   # test app
+    privileged: true
     links:
     - mysql
     volumes:
@@ -27,6 +28,14 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
     - database:/var/lib/mysql
+  cron:
+    container_name: cron
+    build: cron
+    depends_on:
+    - os
+    privileged: true
+    volumes:
+    - workspace:$H2/workspace
 volumes:
   workspace: {}
   database: {}
