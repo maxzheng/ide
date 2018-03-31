@@ -19,6 +19,7 @@ are mapped from the host via host volume.
 
 Build the image (`Dockerfile <Dockerfile>`_) and start the OS and MySQL containers per `docker-compose.yml <docker-compose.yml>`_::
 
+    $ git clone git@github.com:maxzheng/ide.git && cd ide
     $ ./up.sh
 
     Building os
