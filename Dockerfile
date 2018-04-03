@@ -47,7 +47,7 @@ RUN wget -nv https://s3-us-west-2.amazonaws.com/confluent.cloud/cli/ccloud-lates
     && tar xzf ccloud-latest.tar.gz \
     && cp -r ccloud-*/* /usr/local \
     && rm -rf ccloud-*
-RUN apt-get install -y strace cron
+RUN apt-get install -y strace cron maven
 
 ##############################################################################
 ###                         User Customization                             ###

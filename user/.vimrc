@@ -1,65 +1,70 @@
-set nocompatible
+source $VIMRUNTIME/defaults.vim
 
-set shell=/bin/bash
+" ==============================================================================
+" Personal Customizations
+" ==============================================================================
+" Good defaults for all files
+set hlsearch expandtab tabstop=4 shiftwidth=4 softtabstop=4 showtabline=2 ignorecase smartcase textwidth=140
 
-filetype plugin indent on
-syntax on
+" Keep an undo file (undo changes after closing)
+if has('persistent_undo')
+    set undofile
+endif
 
-set backspace=2
-set smartindent hlsearch tabstop=4 shiftwidth=4 expandtab softtabstop=4 showtabline=2 ignorecase smartcase
-set tw=140
-
-set tags=~/workspace/.tags
-
-set makeprg=python-syntax-check\ %
-set errorformat=%f:%l:%m
-
+" Easier to page up/down
 map f <PageDown>
 map b <PageUp>
 
-nmap c :w <bar> make<CR>
+" Go to file in a new tab
+nmap gg <c-w>gf
 
-nmap e :lnext<CR>
-nmap E :lfirst<CR>
-
-nmap <C-o> <C-t>
-nmap <C-p> <C-w><C-]><C-w>T
-
+" Cycle thru tabs using tab
 nmap <S-tab> :tabprevious<cr>
 nmap <tab> :tabnext<cr>
 
-nmap gg <c-w>gf
+" Cycle thru errors
+nmap e :lnext<CR>
+nmap E :lfirst<CR>
+set errorformat=%f:%l:%m
 
-autocmd filetype crontab setlocal nobackup nowritebackup
+" Not sure if needed: nmap <C-o> <C-t>
+" Open tag in a new tab
+nmap <C-p> <C-w><C-]><C-w>T
+set tags=~/workspace/.tags
 
-" Copied from http://tools.corp.linkedin.com/docs/python/misc/editors.html#python-editors
-" Show trailing whitepace and spaces before a tab:
+" Add macro to insert pdb
+let @d='oimport pdb; pdb.set_trace()'
+
+" ------------------------------------------------------------------------------
+
+" ==============================================================================
+" Auto Commands
+" ==============================================================================
+
+" Show trailing whitepace and spaces before a tab
 :highlight ExtraWhitespace ctermbg=red guibg=red
 :match ExtraWhitespace /\s\+$/
 :autocmd Syntax * syn match ExtraWhitespace /\s\+\%#\@<!$/ containedin=ALL
 
-
-au BufNewFile,BufRead .xonshrc set filetype=python
-augroup python
-  autocmd!
-
-  autocmd FileType python map r :w <bar> !python3 %<CR>
-  "autocmd FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class
-  autocmd FileType python setlocal shiftwidth=4 softtabstop=4 "smarttab
-
-  let python_space_errors = 1
-  setlocal nospell
-augroup END
-
 augroup bash
+  autocmd!
   autocmd FileType sh map r :w <bar> !bash %<CR>
-  autocmd FileType sh setlocal shiftwidth=2 softtabstop=2 tabstop=2 shiftwidth=2
+  autocmd FileType sh setlocal sw=2 sts=2 ts=2
 augroup END
 
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
+autocmd FileType python map r :w <bar> !python3 %<CR>
+autocmd FileType html setlocal ts=2 sw=2 sts=2
+autocmd FileType tf setlocal ts=2 sw=2 sts=2
+autocmd FileType yaml setlocal ts=2 sw=2 sts=2
+autocmd FileType crontab setlocal nobackup nowritebackup
+autocmd BufRead,BufNewFile .xonshrc setlocal filetype=python
+autocmd BufRead,BufNewFile Vagrantfile setlocal filetype=ruby ts=2 sw=2 sts=2
+autocmd BufRead,BufNewFile Jenkinsfile setlocal filetype=groovy
+" ------------------------------------------------------------------------------
 
+" ==============================================================================
+" Auto-completion
+" ==============================================================================
 set completeopt-=preview
 
 " Enable omni completion.
@@ -70,38 +75,25 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-autocmd BufRead Vagrantfile setlocal ts=2 sw=2 sts=2
-au FileType html setlocal ts=2 sw=2 sts=2
-au FileType tf setlocal ts=2 sw=2 sts=2
-au FileType yaml setlocal ts=2 sw=2 sts=2
-
-augroup vagrant
-  au!
-  au BufRead,BufNewFile Vagrantfile set filetype=ruby
-augroup END
-
-augroup jenkin
-  au!
-  au BufRead,BufNewFile Jenkinsfile set filetype=groovy
-augroup END
-
-let @d='oimport pdb; pdb.set_trace()'
+" ------------------------------------------------------------------------------
 
 " ==============================================================================
+" Code style check
 " https://github.com/vim-syntastic/syntastic
 " ==============================================================================
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_python_python_exec = 'python3'
-" ==============================================================================
+" ------------------------------------------------------------------------------
 
 
 " ==============================================================================
+" Load Plugins
 " https://github.com/junegunn/vim-plug
 " ==============================================================================
 call plug#begin('~/.vim/plugged')
 
+" Code completion
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -111,7 +103,8 @@ else
 endif
 let g:deoplete#enable_at_startup = 1
 
+" Code style check
 Plug 'vim-syntastic/syntastic'
 
 call plug#end()
-" ==============================================================================
+" ------------------------------------------------------------------------------
