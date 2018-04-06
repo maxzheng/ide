@@ -6,11 +6,6 @@ source $VIMRUNTIME/defaults.vim
 " Good defaults for all files
 set hlsearch expandtab tabstop=4 shiftwidth=4 softtabstop=4 showtabline=2 ignorecase smartcase textwidth=140
 
-" Keep an undo file (undo changes after closing)
-if has('persistent_undo')
-    set undofile
-endif
-
 " Easier to page up/down
 map f <PageDown>
 map b <PageUp>
