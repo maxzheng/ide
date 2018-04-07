@@ -21,6 +21,7 @@ services:
     - ~/.ssh:$H2/.ssh
     - ~/.xonshrc:$H2/.xonshrc
     - workspace:$H2/workspace
+    - virtualenvs:$H2/.virtualenvs
   mysql:
     container_name: mysql
     image: mysql
@@ -37,5 +38,6 @@ services:
     volumes:
     - workspace:$H2/workspace
 volumes:
-  workspace: {}
   database: {}
+  virtualenvs: {}
+  workspace: {}

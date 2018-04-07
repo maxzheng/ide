@@ -1,4 +1,5 @@
 source $VIMRUNTIME/defaults.vim
+source ~/.vim/python.vim
 
 " ==============================================================================
 " Personal Customizations
@@ -47,7 +48,6 @@ augroup bash
   autocmd FileType sh setlocal sw=2 sts=2 ts=2
 augroup END
 
-autocmd FileType python map r :w <bar> !python3 %<CR>
 autocmd FileType html setlocal ts=2 sw=2 sts=2
 autocmd FileType tf setlocal ts=2 sw=2 sts=2
 autocmd FileType yaml setlocal ts=2 sw=2 sts=2

@@ -48,6 +48,10 @@ RUN wget -nv https://s3-us-west-2.amazonaws.com/confluent.cloud/cli/ccloud-lates
     && cp -r ccloud-*/* /usr/local \
     && rm -rf ccloud-*
 RUN apt-get install -y strace cron maven
+RUN apt-get install -y unzip && \
+    wget -q https://releases.hashicorp.com/terraform/0.11.6/terraform_0.11.6_linux_amd64.zip && \
+    unzip terraform*.zip -d /usr/local/bin && \
+    rm terraform*.zip
 
 ##############################################################################
 ###                         User Customization                             ###
