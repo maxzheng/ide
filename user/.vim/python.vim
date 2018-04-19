@@ -17,7 +17,7 @@ import vim
 def run():
     vim.command('write')
     if Path(vim.current.buffer.name).name.startswith('test_'):
-        vim.command(f'!wst test {vim.current.buffer.name}')
+        vim.command(f'!wst test -n 0 {vim.current.buffer.name}')
     else:
         vim.command(f'!python3 {vim.current.buffer.name}')
 

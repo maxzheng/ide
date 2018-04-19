@@ -2,6 +2,7 @@ version: '3'
 services:
   os:
     container_name: ide
+    hostname: ide
     build: .
     ports:
     - "2222:22"     # ssh
@@ -24,6 +25,7 @@ services:
     - virtualenvs:$H2/.virtualenvs
   mysql:
     container_name: mysql
+    hostname: mysql
     image: mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
@@ -31,6 +33,7 @@ services:
     - database:/var/lib/mysql
   cron:
     container_name: cron
+    hostname: cron
     build: cron
     depends_on:
     - os
