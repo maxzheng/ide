@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-export H2=/home/mzheng
+export USER=mzheng
 
 docker-compose up -d --build "$@"

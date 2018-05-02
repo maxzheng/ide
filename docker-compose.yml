@@ -11,19 +11,19 @@ services:
     links:
     - mysql
     volumes:
-    - ~/notes:$H2/notes
-    - ~/.aws:$H2/.aws
-    - ~/.config:$H2/.config
-    - ~/.ccloud:$H2/.ccloud
-    - ~/.gnupg:$H2/.gnupg
-    - ~/.kioskconfig:$H2/.kioskconfig
-    - ~/.m2:$H2/.m2
-    - ~/.pip:$H2/.pip
-    - ~/.pypirc:$H2/.pypirc
-    - ~/.ssh:$H2/.ssh
-    - ~/.xonshrc:$H2/.xonshrc
-    - workspace:$H2/workspace
-    - virtualenvs:$H2/.virtualenvs
+    - ~/notes:/home/$USER/notes
+    - ~/.aws:/home/$USER/.aws
+    - ~/.config:/home/$USER/.config
+    - ~/.ccloud:/home/$USER/.ccloud
+    - ~/.gnupg:/home/$USER/.gnupg
+    - ~/.kioskconfig:/home/$USER/.kioskconfig
+    - ~/.m2:/home/$USER/.m2
+    - ~/.pip:/home/$USER/.pip
+    - ~/.pypirc:/home/$USER/.pypirc
+    - ~/.ssh:/home/$USER/.ssh
+    - ~/.xonshrc:/home/$USER/.xonshrc
+    - workspace:/home/$USER/workspace
+    - virtualenvs:/home/$USER/.virtualenvs
     - /var/run/docker.sock:/var/run/docker.sock
   mysql:
     container_name: mysql
@@ -41,7 +41,7 @@ services:
     - os
     privileged: true
     volumes:
-    - workspace:$H2/workspace
+    - workspace:/home/$USER/workspace
 volumes:
   database: {}
   virtualenvs: {}
