@@ -56,6 +56,7 @@ autocmd FileType crontab setlocal nobackup nowritebackup
 autocmd BufRead,BufNewFile .xonshrc setlocal filetype=python
 autocmd BufRead,BufNewFile Vagrantfile setlocal filetype=ruby ts=2 sw=2 sts=2
 autocmd BufRead,BufNewFile Jenkinsfile setlocal filetype=groovy
+autocmd BufRead,BufNewFile docker-compose.yml map r :w <bar> !docker-compose up -d --build<CR>
 " ------------------------------------------------------------------------------
 
 " ==============================================================================
