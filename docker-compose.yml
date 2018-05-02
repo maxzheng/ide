@@ -17,12 +17,14 @@ services:
     - ~/.ccloud:$H2/.ccloud
     - ~/.gnupg:$H2/.gnupg
     - ~/.kioskconfig:$H2/.kioskconfig
+    - ~/.m2:$H2/.m2
     - ~/.pip:$H2/.pip
     - ~/.pypirc:$H2/.pypirc
     - ~/.ssh:$H2/.ssh
     - ~/.xonshrc:$H2/.xonshrc
     - workspace:$H2/workspace
     - virtualenvs:$H2/.virtualenvs
+    - /var/run/docker.sock:/var/run/docker.sock
   mysql:
     container_name: mysql
     hostname: mysql

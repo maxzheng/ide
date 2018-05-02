@@ -52,7 +52,12 @@ RUN apt-get install -y unzip && \
     wget -q https://releases.hashicorp.com/terraform/0.11.6/terraform_0.11.6_linux_amd64.zip && \
     unzip terraform*.zip -d /usr/local/bin && \
     rm terraform*.zip
-RUN apt-get install -y man doxygen gradle
+RUN apt-get install -y man doxygen gradle telnet
+RUN apt-get install -y apt-transport-https ca-certificates software-properties-common && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
+    apt-get update && \
+    apt-get install -y docker-ce
 
 ##############################################################################
 ###                         User Customization                             ###
@@ -87,6 +92,8 @@ export PATH=$PATH:/home/$USER/.virtualenvs/tools/bin\n\
 
 # Run this by itself to avoid warning msgs about output is not a terminal / so the redirect works.
 RUN vim +PlugInstall +qall &> /dev/null
+
+RUN mkdir .m2
 
 # Do copy last so changes don't trigger rebuild
 COPY root /
