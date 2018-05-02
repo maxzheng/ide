@@ -52,7 +52,7 @@ RUN apt-get install -y unzip && \
     wget -q https://releases.hashicorp.com/terraform/0.11.6/terraform_0.11.6_linux_amd64.zip && \
     unzip terraform*.zip -d /usr/local/bin && \
     rm terraform*.zip
-RUN apt-get install -y man
+RUN apt-get install -y man doxygen gradle
 
 ##############################################################################
 ###                         User Customization                             ###

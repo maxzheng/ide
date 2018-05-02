@@ -6,6 +6,7 @@ source ~/.vim/python.vim
 " ==============================================================================
 " Good defaults for all files
 set hlsearch expandtab tabstop=4 shiftwidth=4 softtabstop=4 showtabline=2 ignorecase smartcase textwidth=120
+set colorcolumn=+1
 
 " Easier to page up/down
 map f <PageDown>
