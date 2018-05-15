@@ -29,13 +29,14 @@ export PATH
 
 # Set window title to current dir
 if [[ "$TERM" == screen* ]]; then
-    screen_set_window_title () {
-        local HPWD="$PWD"
-        case $HPWD in
-            $HOME) HPWD="~";;
-            $HOME/*) HPWD=${PWD##*/};;
-        esac
-        printf '\ek%s\e\\' "$HPWD"
-    }
+  screen_set_window_title () {
+    local HPWD="$PWD"
+    case $HPWD in
+      $HOME) HPWD="~";;
+      $HOME/*) HPWD=${PWD##*/};;
+    esac
+    printf '\ek%s\e\\' "$HPWD"
+  }
   PROMPT_COMMAND="screen_set_window_title; $PROMPT_COMMAND"
+  export TERM=xterm-256color
 fi
