@@ -54,6 +54,7 @@ RUN apt-get update -qq && \
         chmod 0777 /etc/ssh/agents && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
     pip3 install \
+        autopip \
         neovim && \
     wget -q https://s3-us-west-2.amazonaws.com/confluent.cloud/cli/ccloud-latest.tar.gz && \
         tar xzf ccloud-latest.tar.gz && \
@@ -84,20 +85,19 @@ RUN apt-get update -qq && \
 USER $USER:$GROUP
 WORKDIR /home/$USER
 
-RUN mkdir .virtualenvs workspace && \
-    python3 -m venv .virtualenvs/dev-tools && \
-        .virtualenvs/dev-tools/bin/pip3 -q install -U pip && \
-        .virtualenvs/dev-tools/bin/pip3 -q install workspace-tools twine flake8 && \
-    python3 -m venv .virtualenvs/tools && \
-        .virtualenvs/dev-tools/bin/pip3 -q install -U pip && \
-        .virtualenvs/dev-tools/bin/pip3 -q install ansible
+RUN autopip install \
+        ansible-hostmanager \
+        awscli \
+        flake8 \
+        twine \
+        workspace-tools
 
 # chown doesn't support args yet: https://github.com/moby/moby/issues/35018
 COPY --chown=mzheng:root user /home/$USER
 # Everything after this need to run after COPY as they need/modify stuff from user templates.
 
 # Changing directory, so let's run by itself
-RUN cd workspace && ../.virtualenvs/dev-tools/bin/wst setup -a
+RUN wst setup -a
 
 RUN vim +PlugInstall +qall && \
     mkdir .m2
@@ -106,8 +106,6 @@ RUN echo "\n\
 # Setup ssh-agent on login\n\
 . /etc/ssh/agents/$USER &> /dev/null || . /etc/setup-ssh-agent\n\
 \n\
-# Make Python tools available
-export PATH=$PATH:/home/$USER/.virtualenvs/dev-tools/bin:/home/$USER/.virtualenvs/tools/bin\n\
 " >> .bashrc && \
     echo "\n\
 [user]\n\
