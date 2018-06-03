@@ -85,12 +85,7 @@ RUN apt-get update -qq && \
 USER $USER:$GROUP
 WORKDIR /home/$USER
 
-RUN autopip install \
-        ansible-hostmanager \
-        awscli \
-        flake8 \
-        twine \
-        workspace-tools
+RUN autopip install developer-tools
 
 # chown doesn't support args yet: https://github.com/moby/moby/issues/35018
 COPY --chown=mzheng:root user /home/$USER
