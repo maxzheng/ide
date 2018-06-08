@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if ! pgrep cron > /dev/null; then
+    sudo service cron start
+    sudo autopip install "$@"
+fi

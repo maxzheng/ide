@@ -1,3 +1,7 @@
-ssh-agent > /etc/ssh/agents/`whoami`
-. /etc/ssh/agents/`whoami`
-ssh-add
+if pgrep ssh-agent > /dev/null; then
+    . /etc/ssh/agents/$USER &> /dev/null
+else
+    ssh-agent > /etc/ssh/agents/`whoami`
+    . /etc/ssh/agents/`whoami`
+    ssh-add
+fi

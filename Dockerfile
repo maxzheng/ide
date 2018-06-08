@@ -5,6 +5,7 @@ ARG USER=mzheng
 ARG GROUP=root
 ARG NAME="Max Zheng"
 ARG EMAIL="maxzheng.os@gmail.com"
+ARG AUTOPIP_APPS="autopip developer-tools"
 
 ##############################################################################
 ###                         OS Customization                               ###
@@ -69,14 +70,12 @@ RUN apt-get update -qq && \
     wget -q https://releases.hashicorp.com/vagrant/2.1.0/vagrant_2.1.0_x86_64.deb && \
         dpkg -i vagrant_2.1.0_x86_64.deb && \
         rm vagrant_2.1.0_x86_64.deb && \
-    # Workaround for https://github.com/mikaelhg/broken-docker-jdk9-cacerts \
-    /usr/bin/printf '\xfe\xed\xfe\xed\x00\x00\x00\x02\x00\x00\x00\x00\xe2\x68\x6e\x45\xfb\
-        \x43\xdf\xa4\xd9\x92\xdd\x41\xce\xb6\xb2\x1c\x63\x30\xd7\x92' > /etc/ssl/certs/java/cacerts && \
-        /var/lib/dpkg/info/ca-certificates-java.postinst configure && \
     echo "locales locales/default_environment_locale select C.UTF-8" | debconf-set-selections && \
         dpkg-reconfigure locales
 
 # Staging area to avoid rebuild of everything. Merge above once awhile.
+RUN autopip install $AUTOPIP_APPS && \
+    echo "*/5 *   * * *   $USER   bin/generate-ctags 2>&1 > /tmp/cron-generate-ctags.log" >> /etc/crontab
 
 
 ##############################################################################
@@ -84,8 +83,6 @@ RUN apt-get update -qq && \
 ##############################################################################
 USER $USER:$GROUP
 WORKDIR /home/$USER
-
-RUN autopip install developer-tools
 
 # chown doesn't support args yet: https://github.com/moby/moby/issues/35018
 COPY --chown=mzheng:root user /home/$USER
@@ -98,8 +95,8 @@ RUN vim +PlugInstall +qall && \
     mkdir .m2
 
 RUN echo "\n\
-# Setup ssh-agent on login\n\
-. /etc/ssh/agents/$USER &> /dev/null || . /etc/setup-ssh-agent\n\
+. /etc/setup-ssh-agent\n\
+/etc/setup-jobs $AUTOPIP_APPS\n\
 \n\
 " >> .bashrc && \
     echo "\n\

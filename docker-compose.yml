@@ -33,15 +33,6 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
     - database:/var/lib/mysql
-  cron:
-    container_name: cron
-    hostname: cron
-    build: cron
-    depends_on:
-    - os
-    privileged: true
-    volumes:
-    - workspace:/home/$USER/workspace
 volumes:
   database: {}
   virtualenvs: {}
