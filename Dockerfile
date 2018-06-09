@@ -88,9 +88,6 @@ WORKDIR /home/$USER
 COPY --chown=mzheng:root user /home/$USER
 # Everything after this need to run after COPY as they need/modify stuff from user templates.
 
-# Changing directory, so let's run by itself
-RUN wst setup -a
-
 RUN vim +PlugInstall +qall && \
     mkdir .m2
 
@@ -111,6 +108,9 @@ RUN vagrant plugin install vagrant-aws vagrant-hostmanager
 COPY root /
 
 WORKDIR /home/$USER/workspace
+
+# Changing directory, so let's run by itself
+RUN wst setup -a
 
 EXPOSE 22
 
