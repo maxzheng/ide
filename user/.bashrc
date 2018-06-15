@@ -8,8 +8,9 @@ export EDITOR='vim'
 export PYTHONSTARTUP=~/.python
 
 # Command enhancement
-alias vi='vim -p'
 alias grep='grep --color --exclude=*.svn-base --exclude=.tox'
+alias ssh='ah ssh'
+alias vi='vim -p'
 
 if [ "$(uname)" == "Darwin" ]; then
     alias ls='ls -G'

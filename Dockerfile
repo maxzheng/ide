@@ -11,7 +11,8 @@ ARG AUTOPIP_APPS="autopip developer-tools"
 ###                         OS Customization                               ###
 ##############################################################################
 
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
+    rm /etc/dpkg/dpkg.cfg.d/excludes
 RUN apt-get update -qq && \
     apt-get install -yqq \
         cron \
@@ -76,6 +77,8 @@ RUN apt-get update -qq && \
 # Staging area to avoid rebuild of everything. Merge above once awhile.
 RUN autopip install $AUTOPIP_APPS && \
     echo "*/5 *   * * *   $USER   bin/generate-ctags 2>&1 > /tmp/cron-generate-ctags.log" >> /etc/crontab
+RUN apt install -y parallel
+RUN apt install -y --reinstall coreutils
 
 
 ##############################################################################
