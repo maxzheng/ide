@@ -5,6 +5,7 @@ set -x
 docker cp ide:/home/$USER/.bashrc user/.bashrc
 docker cp ide:/home/$USER/.vimrc user/.vimrc
 docker cp ide:/home/$USER/.vim/python.vim user/.vim/python.vim
+docker cp ide:/home/$USER/bin/generate-ctags user/bin/generate-ctags
 
 (set +x
 # Strip out last few lines added by Dockerfile
