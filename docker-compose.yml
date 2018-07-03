@@ -18,7 +18,7 @@ services:
     - ~/.gnupg:/home/$USER/.gnupg
     - ~/.kioskconfig:/home/$USER/.kioskconfig
     - ~/.m2:/home/$USER/.m2
-    - ~/.pip:/home/$USER/.pip
+    - ~/.pip/pip.conf:/etc/pip.conf
     - ~/.pypirc:/home/$USER/.pypirc
     - ~/.ssh:/home/$USER/.ssh
     - ~/.xonshrc:/home/$USER/.xonshrc
