@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.10
 
 # If USER is changed, be sure to update hardcoded value in "COPY --chown" below.
 ARG USER=mzheng
@@ -78,8 +78,7 @@ RUN apt-get update -qq && \
 RUN autopip install $AUTOPIP_APPS && \
     echo "*/5 *   * * *   $USER   bin/generate-ctags 2>&1 > /tmp/cron-generate-ctags.log" >> /etc/crontab
 RUN apt install -y parallel
-RUN apt install -y --reinstall coreutils
-
+RUN apt install -y --reinstall coreutils procps
 
 ##############################################################################
 ###                         User Customization                             ###

@@ -11,6 +11,7 @@ export PYTHONSTARTUP=~/.python
 alias grep='grep --color --exclude=*.svn-base --exclude=.tox'
 alias ssh='ah ssh'
 alias vi='vim -p'
+alias p='vi ~/notes/priorities'
 
 if [ "$(uname)" == "Darwin" ]; then
     alias ls='ls -G'
@@ -22,6 +23,16 @@ fi
 
 # Development
 alias s='screen -h 5000 -dr $*'
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
 
 # Remove duplicates in PATH:
 PATH="$(printf "%s" "${PATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
