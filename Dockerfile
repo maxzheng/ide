@@ -31,11 +31,14 @@ RUN apt-get update -qq && \
         maven \
         mysql-client \
         openssh-server \
+        parallel \
         python3 \
         python python-pip \
         python3-dev \
         python3-pip \
         python3-venv \
+        python3.7-dev \
+        python3.7-venv \
         rsync \
         screen \
         silversearcher-ag \
@@ -55,9 +58,11 @@ RUN apt-get update -qq && \
         /var/run/sshd && \
         chmod 0777 /etc/ssh/agents && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
-    pip3 install \
-        autopip \
-        neovim && \
+    pip3 install -U \
+        pip \
+        autopip==1.5.0 \
+        neovim \
+        wheel && \
     wget -q https://s3-us-west-2.amazonaws.com/confluent.cloud/cli/ccloud-latest.tar.gz && \
         tar xzf ccloud-latest.tar.gz && \
         cp -r ccloud-*/* /usr/local && \
@@ -72,13 +77,12 @@ RUN apt-get update -qq && \
         dpkg -i vagrant_2.1.0_x86_64.deb && \
         rm vagrant_2.1.0_x86_64.deb && \
     echo "locales locales/default_environment_locale select C.UTF-8" | debconf-set-selections && \
-        dpkg-reconfigure locales
+        dpkg-reconfigure locales && \
+    autopip install $AUTOPIP_APPS && \
+        echo "*/5 *   * * *   $USER   bin/generate-ctags 2>&1 > /tmp/cron-generate-ctags.log" >> /etc/crontab && \
+    apt install -y --reinstall coreutils procps
 
 # Staging area to avoid rebuild of everything. Merge above once awhile.
-RUN autopip install $AUTOPIP_APPS && \
-    echo "*/5 *   * * *   $USER   bin/generate-ctags 2>&1 > /tmp/cron-generate-ctags.log" >> /etc/crontab
-RUN apt install -y parallel
-RUN apt install -y --reinstall coreutils procps
 
 ##############################################################################
 ###                         User Customization                             ###
@@ -111,8 +115,7 @@ COPY root /
 
 WORKDIR /home/$USER/workspace
 
-# Changing directory, so let's run by itself
-RUN wst setup -a
+RUN wst setup -a && sudo autopip update
 
 EXPOSE 22
 
