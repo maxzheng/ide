@@ -60,7 +60,7 @@ RUN apt-get update -qq && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
     pip3 install -U \
         pip \
-        autopip==1.5.0 \
+        autopip==1.5.3 \
         neovim \
         wheel && \
     wget -q https://s3-us-west-2.amazonaws.com/confluent.cloud/cli/ccloud-latest.tar.gz && \
@@ -73,9 +73,9 @@ RUN apt-get update -qq && \
     wget -q https://releases.hashicorp.com/packer/1.2.3/packer_1.2.3_linux_amd64.zip && \
         unzip packer_1.2.3_linux_amd64.zip -d /usr/local/bin && \
         rm packer_1.2.3_linux_amd64.zip && \
-    wget -q https://releases.hashicorp.com/vagrant/2.1.2/vagrant_2.1.0_x86_64.deb && \
-        dpkg -i vagrant_2.1.2_x86_64.deb && \
-        rm vagrant_2.1.2_x86_64.deb && \
+    wget -q https://releases.hashicorp.com/vagrant/2.1.5/vagrant_2.1.5_x86_64.deb && \
+        dpkg -i vagrant_2.1.5_x86_64.deb && \
+        rm vagrant_2.1.5_x86_64.deb && \
     echo "locales locales/default_environment_locale select C.UTF-8" | debconf-set-selections && \
         dpkg-reconfigure locales && \
     autopip install $AUTOPIP_APPS && \
