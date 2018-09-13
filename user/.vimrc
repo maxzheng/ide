@@ -52,6 +52,7 @@ augroup END
 autocmd FileType html setlocal ts=2 sw=2 sts=2
 autocmd FileType tf setlocal ts=2 sw=2 sts=2
 autocmd FileType yaml setlocal ts=2 sw=2 sts=2
+autocmd FileType javascript setlocal ts=2 sw=2 sts=2
 autocmd FileType crontab setlocal nobackup nowritebackup
 autocmd BufRead,BufNewFile .xonshrc setlocal filetype=python
 autocmd BufRead,BufNewFile Vagrantfile setlocal filetype=ruby ts=2 sw=2 sts=2
