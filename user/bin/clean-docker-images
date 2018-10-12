@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker images -f "label=io.confluent.docker.build.number" -q | xargs docker rmi -f
+docker system prune -f

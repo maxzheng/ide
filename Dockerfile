@@ -17,7 +17,6 @@ RUN apt-get update -qq && \
     apt-get install -yqq \
         cron \
         curl \
-        default-jdk \
         docker.io \
         doxygen \
         exuberant-ctags \
@@ -30,6 +29,7 @@ RUN apt-get update -qq && \
         man \
         maven \
         mysql-client \
+        openjdk-8-jdk \
         openssh-server \
         parallel \
         python3 \
