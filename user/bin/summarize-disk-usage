@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+import os
+import re
+
+
+output_file = os.path.expanduser('~/Downloads/consoleText.txt')
+
+#18G	./results/2018-11-06--002.1541564225--confluentinc--HEAD--5a9f521/ConnectMysqlDistributedTest/test_connect
+usage_re = re.compile(r'^([\d.]+)G\t./results(?:/[^/]+/([^/]+)/([^/]+))?\n$')
+
+is_usage = False
+usage = {}
+
+with open(output_file) as fp:
+    for line in fp:
+        if line.startswith('+ du -h .'):
+            is_usage = True
+        if line.startswith('+ exit 1'):
+            is_usage = False
+        if is_usage:
+            match = usage_re.match(line)
+            if match:
+                gb, testGroup, test = match.groups()
+                usage_key = testGroup + '.' + test if testGroup else 'ALL'
+                usage[usage_key] = int(float(gb)+ 0.5)
+
+for test, gb in sorted(usage.items(), key=lambda item: item[1], reverse=True):
+    print(f'{test:70} {gb:3} G')
