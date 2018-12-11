@@ -1,0 +1,4 @@
+[flake8]
+exclude = .git,.tox,.eggs,__pycache__
+ignore = E111,E121,W292,E123,E226,W503
+max-line-length = 120
