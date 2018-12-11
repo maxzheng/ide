@@ -7,6 +7,7 @@ import sys
 SINGLE_COMMENT_MARKERS = ('#',)
 BAT_COMMENT_MARKERS = ('rem',)
 MULTI_COMMENT_MARKERS = ('/*', ' *', ' */')  # Start, during, end
+XML_COMMENT_MARKERS = ('<!--', '  ~', '  -->')  # Start, during, end
 
 new_license_file = sys.argv[1]
 
@@ -22,6 +23,9 @@ BAT_LICENSE = ('{0}\n{0}' + '{0}'.join(open(new_license_file).readlines())
 MULTI_LICENSE = ((MULTI_COMMENT_MARKERS[0] + '\n{0}'
                   + '{0}'.join(open(new_license_file).readlines())).format(MULTI_COMMENT_MARKERS[1])
                  + MULTI_COMMENT_MARKERS[2] + '\n')
+XML_LICENSE = ((XML_COMMENT_MARKERS[0] + '\n{0}'
+                + '{0}'.join(open(new_license_file).readlines())).format(XML_COMMENT_MARKERS[1])
+               + XML_COMMENT_MARKERS[2] + '\n')
 
 replace_count = 0
 
@@ -34,20 +38,24 @@ def replace_license(source_file):
     first_comment_finished = False
     is_single = False
     is_bat = False
+    is_xml = False
 
     with open(source_file) as fp:
         for line in fp:
             if first_comment_finished:
                 after_comment.append(line)
 
-            elif (line.startswith(SINGLE_COMMENT_MARKERS + MULTI_COMMENT_MARKERS + BAT_COMMENT_MARKERS)
+            elif (line.startswith(SINGLE_COMMENT_MARKERS + MULTI_COMMENT_MARKERS
+                                  + BAT_COMMENT_MARKERS + XML_COMMENT_MARKERS)
                   and not (line.startswith('#!') or 'suppress inspection' in line)):
                 if line.startswith(SINGLE_COMMENT_MARKERS[0]):
                     is_single = True
                 if line.startswith(BAT_COMMENT_MARKERS[0]):
                     is_bat = True
+                if line.startswith(XML_COMMENT_MARKERS[0]):
+                    is_xml = True
 
-                if line.startswith(MULTI_COMMENT_MARKERS[2]):
+                if line.startswith((MULTI_COMMENT_MARKERS[2], XML_COMMENT_MARKERS[2])):
                     first_comment_finished = True
                 else:
                     first_comment.append(line)
@@ -68,6 +76,8 @@ def replace_license(source_file):
                 fp.write(SINGLE_LICENSE)
             elif is_bat:
                 fp.write(BAT_LICENSE)
+            elif is_xml:
+                fp.write(XML_LICENSE)
             else:
                 fp.write(MULTI_LICENSE)
 
@@ -81,6 +91,9 @@ def replace_license(source_file):
 
 for root, dirs, files in os.walk('.'):
     if '/.' in root:
+        continue
+
+    if root.endswith('/licenses'):
         continue
 
     for name in files:
