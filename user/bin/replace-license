@@ -9,12 +9,12 @@ BAT_COMMENT_MARKERS = ('rem',)
 MULTI_COMMENT_MARKERS = ('/*', ' *', ' */')  # Start, during, end
 XML_COMMENT_MARKERS = ('<!--', '  ~', '  -->')  # Start, during, end
 
-new_license_file = sys.argv[1]
-
-if not new_license_file:
+if not len(sys.argv) == 2:
     print('Usage: replace-license <file_with_new_license>')
-    print('\nReplace the license header in all files under current directory with the new license')
+    print('\nReplace the license header in all files under current directory with the new license.\n')
     sys.exit(1)
+
+new_license_file = sys.argv[1]
 
 SINGLE_LICENSE = ('{0}\n{0}' + '{0}'.join(open(new_license_file).readlines())
                   + '{0}\n').format(SINGLE_COMMENT_MARKERS[0])
