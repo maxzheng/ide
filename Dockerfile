@@ -24,8 +24,10 @@ RUN apt-get update -qq && \
         git \
         gradle \
         iputils-ping \
+        kubectl \
         librdkafka-dev \
         locales \
+        lsb-core \
         man \
         maven \
         mysql-client \
@@ -39,6 +41,7 @@ RUN apt-get update -qq && \
         python3-venv \
         python3.7-dev \
         python3.7-venv \
+        rlwrap \
         rsync \
         screen \
         silversearcher-ag \
@@ -49,6 +52,7 @@ RUN apt-get update -qq && \
         unzip \
         vim \
         zip && \
+    update-java-alternatives --set java-1.8.0-openjdk-amd64 && \
     useradd $USER -g $GROUP --shell /bin/bash && \
         mkdir /home/$USER && \
         chown $USER /home/$USER && \
@@ -80,7 +84,19 @@ RUN apt-get update -qq && \
         dpkg-reconfigure locales && \
     autopip install $AUTOPIP_APPS && \
         echo "*/5 *   * * *   $USER   bin/generate-ctags 2>&1 > /tmp/cron-generate-ctags.log" >> /etc/crontab && \
-    apt install -y --reinstall coreutils procps
+    apt install -y --reinstall coreutils procps && \
+    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
+        echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+        apt update && \
+        apt install -y google-cloud-sdk && \
+    curl -O https://download.clojure.org/install/linux-install-1.10.0.442.sh && \
+        chmod +x linux-install-1.10.0.442.sh && \
+        sudo ./linux-install-1.10.0.442.sh && \
+        rm ./linux-install-1.10.0.442.sh && \
+    wget -q https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -P /usr/local/bin && \
+        chmod +x /usr/local/bin/lein
+
 
 # Staging area to avoid rebuild of everything. Merge above once awhile.
 
