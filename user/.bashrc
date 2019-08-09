@@ -4,12 +4,18 @@ if [ -f /etc/bashrc ]; then
 fi
 
 export PS1='[\W]\$ '
+
+if [[ $VIRTUAL_ENV ]]; then
+  name=`basename $VIRTUAL_ENV`
+  export PS1="($name) $PS1"
+fi
+
 export EDITOR='vim'
 export PYTHONSTARTUP=~/.python
 
 # Command enhancement
 alias grep='grep --color --exclude=*.svn-base --exclude=.tox'
-alias ssh='ah ssh'
+#alias ssh='ah ssh'
 alias vi='vim -p'
 alias p='vi ~/notes/priorities'
 

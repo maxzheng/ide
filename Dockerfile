@@ -24,7 +24,6 @@ RUN apt-get update -qq && \
         git \
         gradle \
         iputils-ping \
-        kubectl \
         librdkafka-dev \
         locales \
         lsb-core \
