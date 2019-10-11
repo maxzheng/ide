@@ -33,6 +33,7 @@ RUN apt-get update -qq && \
         openjdk-8-jdk \
         openssh-server \
         parallel \
+        postgresql-client \
         python3 \
         python python-pip \
         python3-dev \
