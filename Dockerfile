@@ -1,4 +1,4 @@
-FROM ubuntu:18.10
+FROM ubuntu:19.04
 
 # If USER is changed, be sure to update hardcoded value in "COPY --chown" below.
 ARG USER=mzheng
@@ -15,6 +15,8 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
     rm /etc/dpkg/dpkg.cfg.d/excludes
 RUN apt-get update -qq && \
     apt-get install -yqq \
+        build-essential \
+        checkinstall \
         cron \
         curl \
         docker.io \
@@ -24,7 +26,14 @@ RUN apt-get update -qq && \
         git \
         gradle \
         iputils-ping \
+        libbz2-dev \
+        libc6-dev \
+        libgdbm-dev \
+        libncursesw5-dev \
         librdkafka-dev \
+        libreadline-gplv2-dev \
+        libsqlite3-dev \
+        libssl-dev \
         locales \
         lsb-core \
         man \
@@ -34,23 +43,24 @@ RUN apt-get update -qq && \
         openssh-server \
         parallel \
         postgresql-client \
+        python \
+        python-pip \
         python3 \
-        python python-pip \
         python3-dev \
         python3-pip \
         python3-venv \
-        python3.7-dev \
-        python3.7-venv \
         rlwrap \
         rsync \
         screen \
         silversearcher-ag \
         telnet \
+        tk-dev \
         tox \
         strace \
         sudo \
         unzip \
         vim \
+        wget \
         zip && \
     update-java-alternatives --set java-1.8.0-openjdk-amd64 && \
     useradd $USER -g $GROUP --shell /bin/bash && \
@@ -64,8 +74,7 @@ RUN apt-get update -qq && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
     pip3 install -U \
         pip \
-        autopip==1.5.3 \
-        neovim \
+        autopip \
         wheel && \
     wget -q https://s3-us-west-2.amazonaws.com/confluent.cloud/cli/ccloud-latest.tar.gz && \
         tar xzf ccloud-latest.tar.gz && \
@@ -95,7 +104,14 @@ RUN apt-get update -qq && \
         sudo ./linux-install-1.10.0.442.sh && \
         rm ./linux-install-1.10.0.442.sh && \
     wget -q https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -P /usr/local/bin && \
-        chmod +x /usr/local/bin/lein
+        chmod +x /usr/local/bin/lein && \
+    wget -q https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tar.xz && \
+        tar xvf Python-3.6.8.tar.xz && \
+        cd Python-3.6.8 && \
+        ./configure && \
+        make altinstall && \
+        cd .. && rm -rf Python-3.6.8
+
 
 
 # Staging area to avoid rebuild of everything. Merge above once awhile.
@@ -123,8 +139,6 @@ RUN echo "\n\
 	name = $NAME\n\
 	email = $EMAIL\n\
 " >> .gitconfig
-
-RUN vagrant plugin install vagrant-aws vagrant-hostmanager
 
 # Do copy last so changes don't trigger rebuild
 COPY root /
