@@ -28,28 +28,19 @@ Build the image (`Dockerfile <Dockerfile>`_) and start the OS and MySQL containe
     Successfully built 777754a93b49
     Successfully tagged ide_os:latest
 
-    Building cron
-    Step 1/6 : FROM ide_os:latest
-    ...
-    Successfully built 70951708aaab
-    Successfully tagged ide_cron:latest
-
     Creating mysql ... done
     Creating ide   ... done
-    Creating cron  ... done
 
 There are 3 containers started by Docker Compose::
 
     $ docker ps
 
     CONTAINER ID    IMAGE       ...    PORTS                                           NAMES
-    8961bc20adca    ide_cron    ...    22/tcp                                          cron
     88f0c5bdadcf    ide_os      ...    0.0.0.0:5000->5000/tcp, 0.0.0.0:2222->22/tcp    ide
     3e9bd829cb04    mysql       ...    3306/tcp                                        mysql
 
 * ide: The IDE that contains everything for doing software development (Vim, Python, etc).
 * mysql: MySQL database that is accessible from `ide` using the hostname `mysql` for testing.
-* cron: Runs a cronjob to build ctags on the `workspace` Docker volume used by `ide`
 
 Start a shell into the `ide` container via exec::
 
@@ -71,6 +62,7 @@ Or better yet, SSH into the container::
      * Support:        https://ubuntu.com/advantage
 
     Last login: Fri Mar 30 21:25:00 2018 from 172.19.0.1
+
     [~]$ cd workspace/
     [workspace]$ ls
     aiohttp-requests  python-examples  workspace-tools
