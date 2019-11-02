@@ -18,9 +18,9 @@ services:
     - ~/.gnupg:/home/$USER/.gnupg
     - ~/.kioskconfig:/home/$USER/.kioskconfig
     - ~/.m2:/home/$USER/.m2
+    - ~/.netrc:/home/$USER/.netrc
     - ~/.pypirc:/home/$USER/.pypirc
     - ~/.ssh:/home/$USER/.ssh
-    - ~/.xonshrc:/home/$USER/.xonshrc
     - workspace:/home/$USER/workspace
     - virtualenvs:/home/$USER/.virtualenvs
     - /var/run/docker.sock:/var/run/docker.sock
