@@ -75,6 +75,7 @@ RUN apt-get update -qq && \
     pip3 install -U \
         pip \
         autopip \
+        neovim \
         wheel && \
     wget -q https://s3-us-west-2.amazonaws.com/confluent.cloud/cli/ccloud-latest.tar.gz && \
         tar xzf ccloud-latest.tar.gz && \
