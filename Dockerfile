@@ -99,7 +99,7 @@ RUN apt-get update -qq && \
         echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
         curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
         apt update && \
-        apt install -y google-cloud-sdk && \
+        apt install  -yqq google-cloud-sdk && \
     curl -O https://download.clojure.org/install/linux-install-1.10.0.442.sh && \
         chmod +x linux-install-1.10.0.442.sh && \
         sudo ./linux-install-1.10.0.442.sh && \
@@ -111,7 +111,10 @@ RUN apt-get update -qq && \
         cd Python-3.6.8 && \
         ./configure && \
         make altinstall && \
-        cd .. && rm -rf Python-3.6.8
+        cd .. && rm -rf Python-3.6.8 && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && \
+        echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list && \
+        sudo apt update && sudo apt install -yqq yarn
 
 
 

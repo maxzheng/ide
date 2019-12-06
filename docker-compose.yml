@@ -8,6 +8,8 @@ services:
     - "2222:22"     # ssh
     - "5000:5000"   # test app
     - "5001:5001"   # test app
+    - "8080:8080"   # test app
+    - "3000:3000"   # test app
     privileged: true
     links:
     - mysql
