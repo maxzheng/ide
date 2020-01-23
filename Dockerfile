@@ -120,6 +120,8 @@ RUN wget -q https://nodejs.org/dist/v12.13.1/node-v12.13.1-linux-x64.tar.xz && \
         tar xf node-v12.13.1-linux-x64.tar.xz -C /usr/local --strip 1 && \
         rm -f node-v12.13.1-linux-x64.tar.xz
 
+RUN npm install -g firebase-tools rollup
+
 ##############################################################################
 ###                         User Customization                             ###
 ##############################################################################
