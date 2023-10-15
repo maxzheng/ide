@@ -88,7 +88,7 @@ let g:loaded_syntastic_java_javac_checker = 1
 
 
 " ==============================================================================
-" Load Plugins
+" Load Plugins -- run :PlugInstall
 " https://github.com/junegunn/vim-plug
 " ==============================================================================
 call plug#begin('~/.vim/plugged')
@@ -102,6 +102,10 @@ else
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
 let g:deoplete#enable_at_startup = 1
+
+" For Python 3.5
+"Plug 'Shougo/neocomplcache.vim'
+"let g:neocomplcache_enable_at_startup = 1
 
 " Code style check
 Plug 'vim-syntastic/syntastic'
