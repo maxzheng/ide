@@ -80,7 +80,7 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " https://github.com/vim-syntastic/syntastic
 " ==============================================================================
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_python_checkers = ['python', 'flake8']
+let g:syntastic_python_checkers = ['python3', 'flake8']
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_rst_checkers = ['rstcheck']
 let g:loaded_syntastic_java_javac_checker = 1
