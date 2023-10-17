@@ -94,14 +94,7 @@ let g:loaded_syntastic_java_javac_checker = 1
 call plug#begin('~/.vim/plugged')
 
 " Code completion
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
+Plug 'ycm-core/YouCompleteMe'
 
 " For Python 3.5
 "Plug 'Shougo/neocomplcache.vim'
