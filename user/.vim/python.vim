@@ -9,6 +9,7 @@ if !has("python3")
 endif
 
 py3 << CODE
+import os
 from pathlib import Path
 
 import vim
@@ -17,9 +18,12 @@ import vim
 def run():
     vim.command('write')
     if Path(vim.current.buffer.name).name.startswith('test_'):
-        vim.command(f'!wst test -vv -n 0 {vim.current.buffer.name}')
+        vim.command('!wst test -vv -n 0 {}'.format(vim.current.buffer.name))
     else:
-        vim.command(f'!python3 {vim.current.buffer.name}')
+        if os.environ.get('VIM_RUN_COMMAND'):
+            vim.command('!{}'.format(os.environ['VIM_RUN_COMMAND']))
+        else:
+            vim.command('!python3 {}'.format(vim.current.buffer.name))
 
 CODE
 
